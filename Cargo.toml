@@ -1,0 +1,49 @@
+[package]
+name = "pop-launcher-plugin-helper"
+version = "0.1.0"
+authors = ["Christoph Kröppl <ch.kroeppl@gmx.at>"]
+license = "MIT"
+edition = "2021"
+
+rust-version = "1.56"
+description = "seful macros to support pop-launcher plugin development"
+keywords = ["pop", "pop-os", "pop!_os", "launcher", "plugin", "launcher-toolkit", "macro"]
+categories = ["development-tools"]
+
+documentation = "https://docs.rs/pop-launcher-plugin-helper"
+homepage = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
+repository = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
+readme = "README.md"
+publish = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = [
+    "--cfg", "docsrs", "--html-before-content",
+    "fix-docsrs-li-details-summary.html"
+]
+
+[lib]
+name = "helper"
+
+[features]
+default = ["send", "panic"]
+send = ["dep:macro_rules_attribute"]
+panic = ["send", "dep:tokio"]
+
+[dependencies]
+tokio = { version = "1", features = ["rt"], optional = true }
+macro_rules_attribute = { version = "0.2", optional = true }
+
+[dev-dependencies]
+clippy = "*"
+macro_rules_attribute = { version = "0.2", features = ["verbose-expansions"], optional = false }
+# pop-launcher-toolkit = { git = "https://github.com/pop-os/launcher/" }
+pop-launcher-toolkit = { git = "https://github.com/oknozor/launcher/" }
+# macro tests
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[lints.clippy]
+pedantic = "warn"

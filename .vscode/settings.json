@@ -1,0 +1,8 @@
+{
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.hover.actions.references.enable": true,
+  "rust-analyzer.linkedProjects": [
+    "./Cargo.toml"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
+}
