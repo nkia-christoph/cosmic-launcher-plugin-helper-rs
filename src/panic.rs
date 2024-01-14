@@ -1,14 +1,18 @@
 #![cfg(feature = "panic")]
 
 
+extern crate macro_rules_attribute;
+pub use macro_rules_attribute::apply;
 pub use crate::panic;
 
 
 /// impl logging to standard launcher logs
 /// and optionally send panic message to
 /// launcher on panics and aborts.
+///
+///
 #[macro_export]
-macro_rules! set_hook {
+macro_rules! install {
     ( $( $send:expr )? ) => {
         std::panic::set_hook(
             Box::new(|why: &std::panic::PanicInfo<'_>| {
@@ -26,8 +30,8 @@ macro_rules! set_hook {
                         .build()
                     {
                         Ok(rt) => rt.block_on( async {
-                            $crate::send!("Panic!", msg);
-                            $crate::send!(PluginResponse::Finished);
+                            $crate::display_err!("Panic!", msg);
+                            $crate::finished!();
                         }),
                         Err(why) => {
                             tracing::error!("failed to create tokio runtime: {:#?}", why);
@@ -51,7 +55,7 @@ macro_rules! log {
         $( #[$attrs] )*
         $pub $( $async )?
         fn main $( < $($gen),* > )? ( $($arg)* ) $( -> $ret )? {
-            set_hook!();
+            install!();
             $body
         }
     );
@@ -74,7 +78,7 @@ macro_rules! log_and_display {
         #[allow(dead_code)]
         $pub $( $async )?
         fn main $( < $($gen),* > )? ( $($arg)* ) $( -> $ret )? {
-            set_hook!(0);
+            install!(0);
             $body
         }
     );
@@ -98,7 +102,7 @@ macro_rules! plugin {
         #[tokio::main(flavor = "current_thread")]
         $pub async
         fn main $( < $($gen),* > )? ( $($arg)* ) $( -> $ret )? {
-            set_hook!();
+            install!();
             $body
         }
     );
@@ -134,7 +138,7 @@ macro_rules! plugin_display_errors {
         #[tokio::main(flavor = "current_thread")]
         $pub async
         fn main $( < $($gen),* > )? ( $($arg)* ) $( -> $ret )? {
-            set_hook!(0);
+            install!(0);
             $body
         }
     );
@@ -164,7 +168,6 @@ fn log_panic() {
     #[apply(log)]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
 }
 
@@ -175,7 +178,6 @@ fn log_panic_and_display() {
     #[apply(log_and_display)]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
 }
 
@@ -187,8 +189,8 @@ fn tokio_log_panic() {
     #[tokio::main(flavor = "current_thread")]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
+    main();
 }
 
 
@@ -199,8 +201,8 @@ fn tokio_log_panic_and_display() {
     #[tokio::main(flavor = "current_thread")]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
+    main();
 }
 
 
@@ -210,8 +212,8 @@ fn tokio_log_panic_plugin() {
     #[apply(plugin)]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
+    main();
 }
 
 
@@ -221,6 +223,6 @@ fn tokio_log_panic_plugin_display() {
     #[apply(plugin_display_errors)]
     async fn main() {
         println!("success!");
-        panic!("test panic!");
     }
+    main();
 }

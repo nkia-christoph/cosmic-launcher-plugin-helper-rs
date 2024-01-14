@@ -8,10 +8,3 @@
 
 pub mod panic;
 pub mod send;
-
-
-/// Dependencies
-#[allow(unused_imports)]
-#[macro_use]
-extern crate macro_rules_attribute;
-pub use macro_rules_attribute::apply;
