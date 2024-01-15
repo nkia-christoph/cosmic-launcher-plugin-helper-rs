@@ -1,0 +1,16 @@
+[package]
+name = "pop-launcher-plugin-helper-macros"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "helper_macros"
+proc-macro = true
+
+[dependencies]
+syn = "2"
+quote = "1"
+proc-macro2 = "1"
+
+[dev-dependencies]
+trybuild = { version = "1", features = ["diff"] }
