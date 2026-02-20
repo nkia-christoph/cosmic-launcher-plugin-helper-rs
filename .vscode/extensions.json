@@ -5,6 +5,7 @@
     "fill-labs.dependi",
     "rust-lang.rust-analyzer",
     "kokakiwi.vscode-just",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "tamasfe.even-better-toml"
   ]
 }
