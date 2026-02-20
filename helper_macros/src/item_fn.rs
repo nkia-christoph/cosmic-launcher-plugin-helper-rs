@@ -81,6 +81,12 @@ impl ItemFn {
 
         // Outer attributes are simply streamed as-is.
         for attr in self.outer_attrs {
+            // strip the `plugin` attribute itself so the expanded output
+            // does not contain the attribute again
+            // Skip any form of `plugin` attribute, including qualified paths
+            if attr.path().segments.iter().any(|seg| seg.ident == "plugin") {
+                continue;
+            }
             attr.to_tokens(&mut tokens);
         }
 

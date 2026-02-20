@@ -311,7 +311,7 @@ macro_rules! desktop_entry {
             pop_launcher_toolkit::launcher::PluginResponse::DesktopEntry {
                 path: $path,
                 gpu_preference: $gpu_preference,
-                // action_name: TODO 
+                action_name: None,
             }
         ).await
     );

@@ -35,7 +35,6 @@ use crate::item_fn::ItemFn;
 
 
 // syn::AttributeArgs does not implement syn::Parse
-type AttributeArgs = syn::punctuated::Punctuated<syn::Meta, syn::Token![,]>;
 
 
 fn plugin_private(
@@ -199,45 +198,29 @@ impl Configuration {
     #[inline]
     fn from_attrs(attrs: &TokenStream) -> Result<Self, syn::Error> {
         eprintln!("parsing attrs: {:#?}", attrs);
-        let args = AttributeArgs::parse_terminated.parse2(attrs.clone())?;
-
-        let mut config = Self::new();
-        for arg in args {
-            match arg {
-                syn::Meta::NameValue(namevalue) => {
-                    let ident = namevalue
-                        .path
-                        .get_ident()
-                        .ok_or_else(|| {
-                            syn::Error::new_spanned(&namevalue, "Must have specified ident")
-                        })?
-                        .to_string()
-                        .to_lowercase();
-                    let lit = match &namevalue.value {
-                        syn::Expr::Lit(syn::ExprLit { lit, .. }) => lit,
-                        expr => return Err(syn::Error::new_spanned(expr, "Must be a literal")),
-                    };
-                    match ident.as_str() {
-                        "name" => {
-                            config.name = match lit {
-                                syn::Lit::Str(litstr) => Some(litstr.value()),
-                                _ => return Err(syn::Error::new_spanned(lit,
-                                    "Must be a string literal")),
-                            }
-                        }
-                        "log" => config.log = true,
-                        "display" => config.display = true,
-                        arg => return Err(syn::Error::new_spanned(arg,
-                            "Unknown attribute specified; expected one of: \
-                            `log`, `display`, `name='My Plugin'`")),
-                    }
-                },
-                other => return Err(syn::Error::new_spanned(other,
-                    "Unknown attribute specified; expected one of: \
-                    `log`, `display`, `name='My Plugin'`")),
+            let raw = attrs.to_string();
+            let mut config = Self::new();
+            if raw.contains("log") {
+                config.log = true;
             }
-        }
-        Ok(config)
+            if raw.contains("display") {
+                config.display = true;
+            }
+            // parse name = "..."
+            if let Some(idx) = raw.find("name") {
+                // simple parse: look for first '"' after '=' and the closing '"'
+                if let Some(eq_idx) = raw[idx..].find('=') {
+                    let after_eq = &raw[idx + eq_idx + 1..];
+                    if let Some(start_quote) = after_eq.find('"') {
+                        let after_quote = &after_eq[start_quote + 1..];
+                        if let Some(end_quote) = after_quote.find('"') {
+                            let name = &after_quote[..end_quote];
+                            config.name = Some(name.to_string());
+                        }
+                    }
+                }
+            }
+            Ok(config)
     }
 
 
