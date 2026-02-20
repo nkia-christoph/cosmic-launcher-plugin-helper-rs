@@ -1,5 +1,5 @@
 [package]
-name = "pop-launcher-plugin-helper-macros"
+name = "cosmic-launcher-plugin-helper-macros"
 version = "0.1.0"
 authors = ["Christoph Kröppl <ch.kroeppl@gmx.at>"]
 license = "MIT"
@@ -9,9 +9,9 @@ description = "useful macros to support pop-launcher plugin development"
 keywords = ["pop", "pop-os", "pop!_os", "launcher", "plugin", "launcher-toolkit", "macro"]
 categories = ["development-tools"]
 
-documentation = "https://docs.rs/pop-launcher-plugin-helper"
-homepage = "https://github.com/nkia-christoph/pop-launcher-plugin-helper/tree/master/helper_macros"
-repository = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
+documentation = "https://docs.rs/cosmic-launcher-plugin-helper"
+homepage = "https://github.com/nkia-christoph/cosmic-launcher-plugin-helper/tree/master/helper_macros"
+repository = "https://github.com/nkia-christoph/cosmic-launcher-plugin-helper"
 readme = "../README.md"
 publish = true
 
@@ -31,7 +31,7 @@ tokio = { version = "1", features = ["rt", "time"] }
 trybuild = { version = "1", features = ["diff"] }
 
 [dev-dependencies.helper]
-package = "pop-launcher-plugin-helper"
+package = "cosmic-launcher-plugin-helper"
 # version = "0.1.0"
 path = "../helper"
 
