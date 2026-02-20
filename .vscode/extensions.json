@@ -1,10 +1,10 @@
 {
   "recommendations": [
+    "a5huynh.vscode-ron",
     "EditorConfig.EditorConfig",
     "fill-labs.dependi",
     "rust-lang.rust-analyzer",
     "kokakiwi.vscode-just",
-    "ms-azuretools.vscode-docker",
     "github.vscode-github-actions"
   ]
 }
