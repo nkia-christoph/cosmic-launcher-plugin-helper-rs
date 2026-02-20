@@ -1,16 +1,39 @@
 [package]
 name = "pop-launcher-plugin-helper-macros"
 version = "0.1.0"
+authors = ["Christoph Kröppl <ch.kroeppl@gmx.at>"]
+license = "MIT"
 edition = "2021"
+
+description = "useful macros to support pop-launcher plugin development"
+keywords = ["pop", "pop-os", "pop!_os", "launcher", "plugin", "launcher-toolkit", "macro"]
+categories = ["development-tools"]
+
+documentation = "https://docs.rs/pop-launcher-plugin-helper"
+homepage = "https://github.com/nkia-christoph/pop-launcher-plugin-helper/tree/master/helper_macros"
+repository = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
+readme = "../README.md"
+publish = true
 
 [lib]
 name = "helper_macros"
 proc-macro = true
 
 [dependencies]
-syn = "2"
+syn = { version = "2", features = ["full"] }
 quote = "1"
 proc-macro2 = "1"
 
 [dev-dependencies]
+macrotest = "1"
+pop-launcher-toolkit = { git = "https://github.com/pop-os/launcher/", tag = "1.2.7" }
+tokio = { version = "1", features = ["rt", "time"] }
 trybuild = { version = "1", features = ["diff"] }
+
+[dev-dependencies.helper]
+package = "pop-launcher-plugin-helper"
+# version = "0.1.0"
+path = "../helper"
+
+[profile.dev]
+split-debuginfo = "unpacked"

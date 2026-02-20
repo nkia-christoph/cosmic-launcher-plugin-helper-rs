@@ -1,10 +1,10 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "serayuzgur.crates",
+    "fill-labs.dependi",
     "rust-lang.rust-analyzer",
-    "ms-vscode.makefile-tools",
+    "kokakiwi.vscode-just",
     "ms-azuretools.vscode-docker",
-    "kokakiwi.vscode-just"
+    "github.vscode-github-actions"
   ]
 }

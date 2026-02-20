@@ -1,50 +1,11 @@
-[package]
-name = "pop-launcher-plugin-helper"
-version = "0.1.0"
-authors = ["Christoph Kröppl <ch.kroeppl@gmx.at>"]
-license = "MIT"
-edition = "2021"
-
-rust-version = "1.56"
-description = "seful macros to support pop-launcher plugin development"
-keywords = ["pop", "pop-os", "pop!_os", "launcher", "plugin", "launcher-toolkit", "macro"]
-categories = ["development-tools"]
-
-documentation = "https://docs.rs/pop-launcher-plugin-helper"
-homepage = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
-repository = "https://github.com/nkia-christoph/pop-launcher-plugin-helper"
-readme = "README.md"
-publish = true
-
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = [
-    "--cfg", "docsrs", "--html-before-content",
-    "fix-docsrs-li-details-summary.html"
+[workspace]
+resolver = "2"
+members = [
+    "helper",
+    "helper_macros",
 ]
 
-[lib]
-name = "helper"
-
-[features]
-default = ["send"]
-send = ["dep:tokio"]
-panic = ["send", "dep:tokio", "dep:macro_rules_attribute"]
-
-[dependencies]
-macro_rules_attribute = { version = "0.2", optional = true }
-tokio = { version = "1", features = ["rt"], optional = true }
-
-[dev-dependencies]
-clippy = "*"
-macro_rules_attribute = { version = "0.2", features = ["verbose-expansions"], optional = false }
-# pop-launcher-toolkit = { git = "https://github.com/pop-os/launcher/" }
-pop-launcher-toolkit = { git = "https://github.com/oknozor/launcher/" }
-pretty_assertions = "*"
-tokio-test = { version = "0" }
-
-[badges]
-maintenance = { status = "actively-developed" }
-
-[lints.clippy]
-pedantic = "warn"
+[patch.crates-io]
+smithay-client-toolkit = { git = "https://github.com/smithay/client-toolkit", tag = "v0.20.0" }
+# feature flag needed since 0.26.0
+nix = { git = "https://github.com/nix-rust/nix.git", tag = "v0.26.4", features = ["fs"] }
